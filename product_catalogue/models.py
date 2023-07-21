@@ -6,7 +6,7 @@ User = get_user_model()
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, null=True)    
+    name = models.CharField(max_length=100)    
     
     def __str__(self):
         return self.name
@@ -14,10 +14,10 @@ class Category(models.Model):
     
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    price = models.CharField(max_length=30, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2) 
     code = models.CharField(max_length=20)
     
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
             
     def __str__(self):
         return self.name
@@ -26,7 +26,7 @@ class Product(models.Model):
 class ProductFeature(models.Model):
     feature = models.JSONField()
     
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="features")
     
     def __str__(self):
         return self.feature
@@ -35,46 +35,34 @@ class ProductFeature(models.Model):
 class ProductImage(models.Model):
     image = models.ImageField()
     
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
     
     def __str__(self):
         return self.image
     
     
 class Cart(models.Model):
-    # user = models.OneToOneField(User, on_delete=models.CASCADE)
-    product = models.ManyToManyField(Product, through="CartItem")
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     
-    
-    
+      
 class CartItem(models.Model):
     quantity = models.IntegerField(default=0)    
     payment = models.DecimalField(max_digits=10, decimal_places=2)  
     
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, related_name="cart_items")
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="cart_items")
     
     def __str__(self):
         return self.payment    
     
     
 class Review(models.Model):
-    star_rating = models.PositiveBigIntegerField(default=0, blank=False, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    star_rating = models.PositiveIntegerField(default=0, blank=False, validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField(blank=True)
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
     
     def __str__(self):
         return self.comment
-    
-    
-class Order(models.Model):
-    total_ammount = models.DecimalField(max_digits=10, decimal_places=2)  
-    order_placed_date = models.DateField(auto_now_add=True)
-    shipping_address = models.TextField(blank=False)
-    
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    
     

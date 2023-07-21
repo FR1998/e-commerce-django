@@ -1,7 +1,5 @@
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-
-
 from user.manager import CustomUserManager
 
 
@@ -17,10 +15,7 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = []
     
     objects = CustomUserManager()
-    
-     # Add the related_name argument to the groups and user_permissions fields
-    groups = models.ManyToManyField(Group, blank=True, related_name='customuser_set')
-    user_permissions = models.ManyToManyField(Permission, blank=True, related_name='customuser_set')
 
     def __str__(self):
         return self.email
+    
