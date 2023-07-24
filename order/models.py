@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class Order(models.Model):
@@ -6,6 +9,6 @@ class Order(models.Model):
     order_placed_date = models.DateField(auto_now_add=True)
     shipping_address = models.TextField(blank=False)
     
-    user = models.ForeignKey("user.CustomUser", on_delete=models.CASCADE, related_name="orders")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
     product = models.ForeignKey("product_catalogue.Product", on_delete=models.CASCADE, related_name="orders")
     

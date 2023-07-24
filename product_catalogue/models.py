@@ -1,5 +1,8 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -40,7 +43,7 @@ class ProductImage(models.Model):
     
     
 class Cart(models.Model):
-    user = models.OneToOneField("user.CustomUser", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     
       
 class CartItem(models.Model):
@@ -58,7 +61,7 @@ class Review(models.Model):
     star_rating = models.PositiveIntegerField(default=0, blank=False, validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField(blank=True)
     
-    user = models.ForeignKey("user.CustomUser", on_delete=models.CASCADE, related_name="reviews")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
     product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="reviews")
     
     def __str__(self):
