@@ -11,8 +11,8 @@
             <h6 class="m-0">Categories</h6>
                 <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        {% for item in categories %}
-                        <a href="category/{{item.id}}" class="nav-item nav-link">{{item.name}}</a>
+                        {% for category in categories %}
+                        <a href="category/{{category.id}}" class="nav-item nav-link">{{category.name}}</a>
                         {%endfor%}
                     </div>
                 </nav>
