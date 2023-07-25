@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{%block content%}
+
+{% include "product_listing.html" %}
+    
+
+        <!-- Pagination Start -->
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      {%if products.has_previous %} 
+    <li class="page-item"><a class="page-link" href="?query={{query}}">&laquo; First</a></li>
+        <a class="page-link" href="?query={{query}}&page={{products.previous_page_number}}" aria-label="Previous">
+          <span aria-hidden="true">< Previous</span>
+        </a>
+      {% endif %}
+    </li>
+    <li class="page-item"><a class="page-link" href="{{products.number}}">{{products.number}}</a></li>
+    <li class="page-item">
+      {%if products.has_next %} 
+          <a class="page-link" href="?query={{query}}&page={{products.next_page_number}}" aria-label="Next">
+            <span aria-hidden="true">> Next</span>
+          </a>
+      <li class="page-item"><a class="page-link" href="?query={{query}}&page={{products.paginator.num_pages}}">&raquo; Last</a></li>
+        {% endif %}
+      </li>
+    </ul>
+</nav>
+<!-- Pagination ends -->
+  
+      <!-- Products Ends -->
+
+      {% endblock %}
