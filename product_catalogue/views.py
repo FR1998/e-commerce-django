@@ -5,11 +5,11 @@ from product_catalogue.pagination import get_pagination
 
 def product_listing(request):
     products = Product.objects.all()
-    category = Category.objects.all()
+    categories = Category.objects.all()
     
     active_page = get_pagination(request, products)
 
-    context = {"products":active_page, "categories":category}
+    context = {"products":active_page, "categories":categories}
         
     return render(request, "index.html", context)
 
@@ -27,8 +27,8 @@ def list_products_with_category(request, category_id):
     
 
 def get_product_details(request, id):
-    product = Product.objects.filter(id=id)
-    context = {"products":product}    
+    product = Product.objects.get(id=id)
+    context = {"product":product}    
     
     return render(request, "details.html", context)
 

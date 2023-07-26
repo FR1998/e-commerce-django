@@ -4,8 +4,6 @@
 
 {% include "product_listing.html" %}
     
-
-        <!-- Pagination Start -->
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     <li class="page-item">
@@ -16,7 +14,7 @@
         </a>
       {% endif %}
     </li>
-    <li class="page-item"><a class="page-link" href="{{products.number}}">{{products.number}}</a></li>
+    <li class="page-item"><a class="page-link" href="?query={{query}}&page={{products.number}}">{{products.number}}</a></li>
     <li class="page-item">
       {%if products.has_next %} 
           <a class="page-link" href="?query={{query}}&page={{products.next_page_number}}" aria-label="Next">
@@ -27,8 +25,6 @@
       </li>
     </ul>
 </nav>
-<!-- Pagination ends -->
-  
-      <!-- Products Ends -->
 
       {% endblock %}
+

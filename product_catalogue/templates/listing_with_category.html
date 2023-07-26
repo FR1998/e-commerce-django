@@ -31,7 +31,7 @@
         </a>
         {% endif %}
     </li>
-    <li class="page-item"><a class="page-link" href="{{products.number}}">{{products.number}}</a></li>
+    <li class="page-item"><a class="page-link" href="?sort={{sorting}}&page={{products.number}}">{{products.number}}</a></li>
     <li class="page-item">
         {%if products.has_next %} 
     <a class="page-link" href="?sort={{sorting}}&page={{products.next_page_number}}" aria-label="Next">
@@ -43,11 +43,10 @@
   </ul>
 </nav>
         <!-- Pagination ends -->
-
       </div>
     </div>
   </div>
 </div>
 
-
 {% endblock %}
+
