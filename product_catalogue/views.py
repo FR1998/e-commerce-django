@@ -3,7 +3,7 @@ from django.views import View
 from product_catalogue.models import *
 from product_catalogue.pagination import get_pagination
 
-
+# comment added for github
 class ProductView(View):
     def get(self, request):
         products = Product.objects.all()
