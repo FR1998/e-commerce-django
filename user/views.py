@@ -9,7 +9,7 @@ from django.views import View
 from user.forms import *
 
 User = get_user_model()
-#Django forms added
+
 
 class RegisterView(View):
     def get(self, request):
@@ -22,7 +22,7 @@ class RegisterView(View):
     def post(self, request):
         register_form = RegisterForm(request.POST, request.FILES)
         if register_form.is_valid():
-            
+        
             user = User.objects.create(
                 name=register_form.cleaned_data["name"],
                 email=register_form.cleaned_data["email"],
@@ -32,6 +32,7 @@ class RegisterView(View):
             )
             user.set_password(register_form.cleaned_data["password"])
             user.save()
+            
             return redirect("/login/")
         
         return render(request, "register.html", {"form":register_form})
@@ -99,6 +100,7 @@ class UpdateUserView(View):
                 user.profile_picture = profile_picture
 
             user.save()
+            
             return redirect("/")
         
         return render(request, "update_user.html", {"form": update_form})
