@@ -9,7 +9,7 @@ from django.views import View
 from user.forms import *
 
 User = get_user_model()
-
+#Django forms added
 
 class RegisterView(View):
     def get(self, request):
