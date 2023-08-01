@@ -4,33 +4,48 @@
 
 <div class="container">
 
-    <form method="post" enctype="multipart/form-data">
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <img src="{{ request.user.profile_picture.url }}" alt="avatar"
+                    class="rounded-circle img-fluid" style="width: 150px;">
+                  <h5 class="my-3">{{request.user.name}}</h5>
+                </div>
+              </div>
+            </div>
 
-        {% csrf_token %}
+            <div class="col-lg-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                        <form method="post" enctype="multipart/form-data">
 
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Name</label>
-            <input class="form-control" name="name" type="text" aria-label="default input example">
+                            {% csrf_token %}
+                        
+                            {{ form.as_p }}
+                            <input type="submit" value="Update">
+                            
+                          </form>
+                    </div>
+
+                  </div>
+                  <hr>
+                  
+              
+                <div class="col-md-6">
+                    <div class="card mb-4 mb-md-0">
+                      <div class="card-body">
+                        <a href="/change-password/">Forgot Password ?</a>
+                    </div>
+                </div>
+            </div>    
         </div>
+      </section>        
 
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Phone Number</label>
-            <input class="form-control" name="phone_number" type="text" aria-label="default input example">
-        </div>
-
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Address</label>
-            <input class="form-control" name="address" type="text"  aria-label="default input example">
-        </div>
-
-        <div>
-            <label class="form-label" for="customFile">Upload Image</label>
-            <input type="file" name="profile_picture" class="form-control" id="customFile" />
-        </div>  
-
-        <button type="submit" class="btn btn-primary my-3">Update</button>
-
-      </form>
 </div>
   
 
