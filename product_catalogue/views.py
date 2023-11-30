@@ -1,49 +1,48 @@
 from django.shortcuts import render
+from django.views import View
 from product_catalogue.models import *
-import json
-# Create your views here.
+from product_catalogue.pagination import get_pagination
 
-def display_product(request):
-    with open('product_catalogue/data/clothes.json') as f:
-        data = json.load(f)
+# comment added for github
+class ProductView(View):
+    def get(self, request):
+        products = Product.objects.all()
+        categories = Category.objects.all()
+    
+        active_page = get_pagination(request, products)
+
+        context = {"products":active_page, "categories":categories}
         
-        for item in data:
-            for category in item["product_info"]:
-                category = Category(name=category)
-                category.save()
-                
-            product = Product(
-                name=item["product_name"],
-                price=item["product_price"],
-                code=item["product_code"]
-            )
-            product.save()
-            
-            for image_url in item["product_images"]:
-                images = ProductImage(product=product, image=image_url)
-                images.save()
-                
-            for one_feature in item["product_info"]:
-                features = ProductFeature(product=product, feature=one_feature)
-                features.save()    
-                 
-    products = Product.objects.all()
-    context = {"products": products}    
-    return render(request, "display_product.html", context)
-
-def display_detail_product(request, id):
-    product = Product.objects.filter(id=id)
-    context = {"products": product}    
-    return render(request, "display_detail_product.html", context)
-
-# def display_with_category(request,category):
-#     # products = Product.objects.filter(product_features__category__category_name__icontains=category)
-#     products = Product.objects.all()
-#     context = {"products": products}    
-#     return render(request, "display_category_wise.html", context)
+        return render(request, "index.html", context)
     
 
+class CategoryProductsView(View):
+    def get(self, request, category_id):
+        sort_by = request.GET.get("sort", "name")
+        category = Category.objects.get(id=category_id) 
+        products = Product.objects.filter(category=category).order_by(sort_by) 
+    
+        active_page = get_pagination(request, products)
+    
+        context = {"products":active_page, "sorting":sort_by}      
+    
+        return render(request, "listing_with_category.html", context)
+    
+    
+class ProductDetailView(View):
+    def get(self, request, id):
+        product = Product.objects.get(id=id)
+        context = {"product":product}    
+    
+        return render(request, "details.html", context)
 
-#products.product_features_set.all() to access all features
-#Category.objects.filter(category_name="Cotton").values() by id 
+
+class SearchProductsView(View):
+    def get(self, request):
+        query_name = request.GET.get("query", None)
+        products = Product.objects.filter(name__icontains=query_name)
         
+        context = {"products": products, "query": query_name}
+        
+        return render(request, "search_product.html", context)
+    

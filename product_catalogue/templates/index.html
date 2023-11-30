@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{%block content%}
+      
+{% include "index_topbar.html" %}
+    
+<div class="container-fluid mb-5">
+    <div class="row border-top px-xl-5">
+        <div class="col-lg-3 d-none d-lg-block">
+            <h6 class="m-0">Categories</h6>
+                <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
+                    <div class="navbar-nav w-100 overflow-hidden" style="height: 600px">
+                        {% for category in categories %}
+                        <a href="category/{{category.id}}" class="nav-item nav-link">{{category.name}}</a>
+                        {%endfor%}
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>    
+
+{% include "product_listing.html" %}
+                
+    <!-- Pagination Start -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            {%if products.has_previous %} 
+                <li class="page-item"><a class="page-link" href="?page={{1}}">&laquo; First</a></li>
+                    <a class="page-link" href="?page={{products.previous_page_number}}" aria-label="Previous">
+                    <span aria-hidden="true">< Previous</span>
+                    </a>
+            {% endif %}
+                </li>
+                    <li class="page-item"><a class="page-link" href="?page={{products.number}}">{{products.number}}</a></li>
+                    <li class="page-item">
+            {%if products.has_next %} 
+                    <a class="page-link" href="?page={{products.next_page_number}}" aria-label="Next">
+                    <span aria-hidden="true">> Next</span>
+                    </a>
+                <li class="page-item"><a class="page-link" href="?page={{products.paginator.num_pages}}">&raquo; Last</a></li>
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+      <!-- Pagination ends -->
+         
+{% endblock %}
+      
